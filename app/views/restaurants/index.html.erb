@@ -4,6 +4,14 @@
     <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
     <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %>
     <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
+    <% @reviews = Review.where(:restaurant_id=>restaurant.id) %>
+    <% if @reviews.any? %>
+      <br>Reviews<br>
+      <% @reviews.each do |review| %>
+        Thoughts: <%= review.thoughts %><br>
+        Rating: <%= review.rating %><br>
+      <% end %>
+    <% end %>
   <% end %>
 <% else %>
   <h1>No restaurants yet</h1>
