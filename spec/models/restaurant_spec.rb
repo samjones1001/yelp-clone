@@ -11,20 +11,23 @@ describe Restaurant, type: :model do
   end
 
   it "is not valid unless it has a unique name" do
-    Restaurant.create(name: "Moe's Tavern")
-    restaurant = Restaurant.new(name: "Moe's Tavern")
+    user = User.create(email: 'email@email.com', password: 'password')
+    Restaurant.create(name: "Moe's Tavern", user_id: user.id)
+    restaurant = Restaurant.new(name: "Moe's Tavern", user_id: user.id)
     expect(restaurant).to have(1).error_on(:name)
   end
 
   it "it can edit a restaurant" do
-   Restaurant.create(name: "Moe's Tavern")
+   user = User.create(email: 'email@email.com', password: 'password')
+   Restaurant.create(name: "Moe's Tavern", user_id: user.id)
    restaurant = Restaurant.find_by(name: "Moe's Tavern")
    restaurant.update(name: "Joe's Tavern")
    expect(restaurant.name).to eq("Joe's Tavern")
  end
 
  it "it can delete a restaurant" do
-   Restaurant.create(name: "Moe's Tavern")
+   user = User.create(email: 'email@email.com', password: 'password')
+   Restaurant.create(name: "Moe's Tavern", user_id: user.id)
    restaurant = Restaurant.find_by(name: "Moe's Tavern")
    restaurant.destroy
    expect(restaurant.destroyed?).to be true

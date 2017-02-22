@@ -1,7 +1,12 @@
 require 'rails_helper'
 
+
 feature 'restaurants' do
+
+
+
   context 'no restaurants have been added' do
+
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
       expect(page).to have_content 'No restaurants yet'
@@ -11,7 +16,8 @@ feature 'restaurants' do
 
   context 'restaurants have been added' do
     before do
-      Restaurant.create(name: 'KFC')
+      user = User.create(email: 'email@email.com', password: 'password')
+      Restaurant.create(name: 'KFC', user_id: user.id)
     end
 
     scenario 'display restaurants' do
@@ -77,9 +83,17 @@ feature 'restaurants' do
   end
 
   context 'viewing restaurants' do
-    let!(:kfc) {Restaurant.create(name:'KFC')}
+
+
+    # let!(:kfc) {Restaurant.create(name:'KFC', user_id: user.user_id)}
 
     scenario 'lets a user view a restaurant' do
+
+
+      user = User.create(email: 'email@email.com', password: 'password')
+      kfc = Restaurant.create(name:'KFC', user_id: user.id)
+
+
       visit '/restaurants'
       click_link 'KFC'
       expect(page).to have_content 'KFC'
@@ -111,7 +125,6 @@ feature 'restaurants' do
         click_link 'Kentucky Fried Chicken'
         expect(page).to have_content 'Kentucky Fried Chicken'
         expect(page).to have_content 'Deep fried goodness'
-  
       end
     end
     context 'user cannot edit other\'s restaurants' do
