@@ -88,47 +88,110 @@ feature 'restaurants' do
   end
 
   context 'editing restaurants ' do
-    before do
-      visit '/'
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
-    end
+    context 'user can edit own restraunts' do
+      before do
+        visit '/'
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+        click_link 'Add a restaurant'
+        fill_in('Name', with: 'KFC')
+        fill_in('Description', with: 'Vile')
+        click_button('Create Restaurant')
+      end
 
-    before { Restaurant.create name: 'KFC', description: 'Deep fried goodness', id: 1}
-    scenario ' let a user edit a restaurant ' do
-      visit '/restaurants'
-      click_link 'Edit KFC'
-      fill_in 'Name', with: 'Kentucky Fried Chicken'
-      fill_in 'Description', with: 'Deep fried goodness'
-      click_button 'Update Restaurant'
-      click_link 'Kentucky Fried Chicken'
-      expect(page).to have_content 'Kentucky Fried Chicken'
-      expect(page).to have_content 'Deep fried goodness'
-      expect(current_path).to eq '/restaurants/1'
+      scenario ' let a user edit a restaurant ' do
+        visit '/restaurants'
+        click_link 'Edit KFC'
+        fill_in 'Name', with: 'Kentucky Fried Chicken'
+        fill_in 'Description', with: 'Deep fried goodness'
+        click_button 'Update Restaurant'
+        click_link 'Kentucky Fried Chicken'
+        expect(page).to have_content 'Kentucky Fried Chicken'
+        expect(page).to have_content 'Deep fried goodness'
+  
+      end
+    end
+    context 'user cannot edit other\'s restaurants' do
+      before do
+        visit '/'
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+        click_link 'Add a restaurant'
+        fill_in('Name', with: 'KFC')
+        fill_in('Description', with: 'Vile')
+        click_button('Create Restaurant')
+        click_link('Sign out')
+        click_link('Sign up')
+        fill_in('Email', with: 'test2@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+      end
+
+      scenario 'will not allow editing' do
+        visit '/restaurants'
+        click_link 'Edit KFC'
+        expect(page).to have_content('error')
+      end
     end
   end
 
   context 'deleting restaurants' do
 
-    before do
-      visit '/'
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
+    context 'user can delete own restaurant' do
+      before do
+        visit '/'
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+        click_link 'Add a restaurant'
+        fill_in('Name', with: 'KFC')
+        fill_in('Description', with: 'Vile')
+        click_button('Create Restaurant')
+      end
+
+      scenario 'removes a restaurant when a user clicks a delete link' do
+        visit '/restaurants'
+        click_link 'Delete KFC'
+        expect(page).not_to have_content 'KFC'
+        expect(page).to have_content 'Restaurant deleted successfully'
+      end
     end
 
-    before {Restaurant.create name:'KFC', description: 'Deep fried goodness'}
+    context 'user cannot delete other\'s restaurants' do
+      before do
+        visit '/'
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+        click_link 'Add a restaurant'
+        fill_in('Name', with: 'KFC')
+        fill_in('Description', with: 'Vile')
+        click_button('Create Restaurant')
+        click_link('Sign out')
+        click_link('Sign up')
+        fill_in('Email', with: 'test2@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+      end
 
-    scenario 'removes a restaurant when a user clicks a delete link' do
-      visit '/restaurants'
-      click_link 'Delete KFC'
-      expect(page).not_to have_content 'KFC'
-      expect(page).to have_content 'Restaurant deleted successfully'
+      scenario 'pressing delete does not work' do
+        visit '/restaurants'
+        click_link 'Delete KFC'
+        expect(page).to have_content 'KFC'
+        expect(page).to have_content 'error'
+      end
     end
   end
 
