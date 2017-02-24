@@ -2,11 +2,16 @@
   <% @restaurants.each do |restaurant| %>
     <div>
       <%= link_to restaurant.name, restaurant_path(restaurant) %><h3>Average rating: <%= star_rating(restaurant.average_rating) %></h3><br>
-      <% restaurant.reviews.each do |review| %><br>
-        <%= review.thoughts %>
-        <%= review.rating %>
-        <p><%= pluralize review.endorsements.count, 'endorsement' %></p>
-      <% end %><br>
+      <ul>
+        <% restaurant.reviews.each do |review| %><br>
+          <li>
+            <%= review.thoughts %>
+            <%= review.rating %>
+            <%= link_to "Endorse", review_endorsements_path(review), class: 'endorsements-link' %>
+            <span class="endorsements_count"> <%= review.endorsements.count %> </span> <%= 'endorsement'.pluralize(review.endorsements.count) %>
+          </li>
+        <% end %>
+      </ul>
       <% if @current_user %>
         <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
         <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
