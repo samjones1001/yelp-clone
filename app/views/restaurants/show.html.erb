@@ -1,6 +1,6 @@
 <p><%= @restaurant.name %></p>
 <p><%= @restaurant.description %></p>
-
+<h3>Average rating: <%= @restaurant.average_rating.to_i %></h3>
 <% @reviews.each do |review| %>
   Thoughts: <%= review.thoughts %><br>
   Rating: <%= review.rating %><br>

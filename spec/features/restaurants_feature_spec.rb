@@ -85,14 +85,10 @@ feature 'restaurants' do
   context 'viewing restaurants' do
 
 
-    # let!(:kfc) {Restaurant.create(name:'KFC', user_id: user.user_id)}
 
     scenario 'lets a user view a restaurant' do
-
-
       user = User.create(email: 'email@email.com', password: 'password')
       kfc = Restaurant.create(name:'KFC', user_id: user.id)
-
 
       visit '/restaurants'
       click_link 'KFC'
