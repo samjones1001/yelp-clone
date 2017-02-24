@@ -5,6 +5,7 @@
       <% restaurant.reviews.each do |review| %><br>
         <%= review.thoughts %>
         <%= review.rating %>
+        <p><%= pluralize review.endorsements.count, 'endorsement' %></p>
       <% end %><br>
       <% if @current_user %>
         <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
