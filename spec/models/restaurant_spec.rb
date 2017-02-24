@@ -32,4 +32,10 @@ describe Restaurant, type: :model do
    restaurant.destroy
    expect(restaurant.destroyed?).to be true
  end
+
+ it "responds to the build review method" do
+   user = User.create(email: "test@test.com", password: "testtest")
+   restaurant = Restaurant.create(name: "Moe's Tavern", user_id: user.id)
+   expect(restaurant).to respond_to(:build_review).with(2).arguments
+ end
 end
