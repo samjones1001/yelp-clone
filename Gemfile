@@ -36,6 +36,7 @@ gem 'omniauth-facebook'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'paperclip', '~> 4.3', '>= 4.3.6'
+gem 'aws-sdk', '~> 2.3'
 
 
 group :development, :test do
