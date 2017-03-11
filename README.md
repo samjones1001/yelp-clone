@@ -1,7 +1,7 @@
 ## Yelp Clone
-#### Technologies: Ruby, Rails, Rspec, PostgreSQL, HTML
+#### Technologies: Ruby, Rails, Rspec, Devise, OmniAuth, Capybara, PostgreSQL, HTML
 ### Week 8 pair programming challenge for [Makers Academy] (http://www.makersacademy.com)
-[Outline](#outline) | [User Stories](#user-stories) | [Gems](#gems) | [Usage Instructions](#usage-instructions) 
+[Outline](#outline) | [Gems](#gems) | [Usage Instructions](#usage-instructions) 
 
 ## Brief
 This week's project is a clone of Yelp. The goal is to introduce you to Rails, focusing especially on:
@@ -14,10 +14,8 @@ This week's project is a clone of Yelp. The goal is to introduce you to Rails, f
   * AJAX in Rails
 
 ## Outline
+This challenge involved using Rails for the first time in order to build a light-weight clone of Yelp.  Having built an MVP allowing users to add and delete retaurants and leave reviews, I continued by adding user authentications using the [Devise](https://github.com/plataformatec/devise) gem and then allowed for login using Facebook credentials using [OmniAuth](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)/.
 
-## User Stories
-```
-```
 
 ## Gems
 ```ruby
@@ -62,18 +60,26 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 ## Usage Instructions
 * clone the repo and run bundle
 ```shell
-$ git clone https://github.com/samjones1001/makersbnb
-$ cd makersbnb
-$ rvm 2.3.3
+$ git clone https://github.com/samjones1001/yelp-clone
+$ cd yelp-clone
 $ bundle
 ```
 * run tests
 ```shell
 $ rspec
 ```
-* start up sinatra
-```shell
-$ ruby app.rb
+* update your Facebook Security Key and AWS details by creating a file called .env in the root and filling in the below details
 ```
-* in your browser, navigate to http://localhost:4567/ 
+FACEBOOK_APP_SECRET=
+S3_BUCKET_NAME=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+```
+* start a Rails serve
+```shell
+$ bin/rails server
+```
+
+In your browser, go to http://localhost:3000
 
